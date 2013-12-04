@@ -1,35 +1,16 @@
-Solarized Colorscheme for Gnome Terminal
+Monokai Colorscheme for Gnome Terminal
 ========================================
 
-Scripts for setting the Solarized color set with Gnome Terminal.
-
-Colors
-------
-
-Only the foreground, background and highlight colors are different in the light
-and dark color sets, as one of the main ideas behind Ethan Schonoovers work is
-to use the same colors in the palette for both.
-
-If you are not happy, you can change which colors are used for what in the
-shell. This can be done by using [ls-colors-solarized].
-
-See the [Solarized homepage] for theory behind the colors, screenshots, details
-and colorscheme versions for Vim, Mutt, popular terminal emulators and other
-applications.
-
-For the original works of Ethan Schoonover, visit the [Solarized repository].
-The scripts for Gnome Terminal is maintained in [Gnome Terminal Colors
-Solarized repository].
+Scripts for setting the Monokai color set with Gnome Terminal.
 
 Installation and usage
 ----------------------
 
-Clone the [git repository], then run `./solarize`. To change between light and
-dark background, run `./solarize` again.
+Clone the [git repository], then run `./install.sh`.
 
-    $ git clone git://github.com/sigurdga/gnome-terminal-colors-solarized.git
-    $ cd gnome-terminal-colors-solarized
-    $ ./solarize
+    $ git clone git://github.com/pricco/gnome-terminal-colors-monokai.git
+    $ cd gnome-terminal-colors-monokai
+    $ ./monokai
 
 ### Gnome 3.8 or higher
 
@@ -47,12 +28,12 @@ And just follow the instructions.
 Uninstall
 ---------
 
-Change to another profile in Gnome Terminal, then remove the Solarized profile
+Change to another profile in Gnome Terminal, then remove the Monokai profile
 by running:
 
 ### Gnome 3.6 or lower
 
-    $ rm -r ~/.gconf/apps/gnome-terminal/profiles/Solarized/
+    $ rm -r ~/.gconf/apps/gnome-terminal/profiles/Monokai/
 
 ### Gnome 3.8 or higher
 
@@ -78,12 +59,8 @@ FAQ
 Conflicting background colors in VIM
 ------------------------------------
 
-Use the 16 colors terminal option to get VIM to look like GVIM with solarized
+Use the 16 colors terminal option to get VIM to look like GVIM with monokai
 colors.
 
     set t_Co=16
 
-[Solarized homepage]:   http://ethanschoonover.com/solarized
-[Solarized repository]: https://github.com/altercation/solarized
-[Gnome Terminal Colors Solarized repository]: https://github.com/sigurdga/gnome-terminal-colors-solarized
-[ls-colors-solarized]: https://github.com/sigurdga/ls-colors-solarized

@@ -15,9 +15,6 @@ else
   gconfdir=/apps/gnome-terminal/profiles
 fi
 
-declare -a schemes
-schemes=(dark light)
-
 declare -a profiles
 if [ "$newGnome" = "1" ]
   then profiles=($(dconf list $dconfdir/ | grep ^: | sed 's/\///g'))
@@ -42,23 +39,15 @@ show_help() {
   echo "Usage"
   echo
   echo "    install.sh [-h|--help] \\"
-  echo "               (-s <scheme>|--scheme <scheme>|--scheme=<scheme>) \\"
   echo "               (-p <profile>|--profile <profile>|--profile=<profile>)"
   echo
   echo "Options"
   echo
   echo "    -h, --help"
   echo "        Show this information"
-  echo "    -s, --scheme"
-  echo "        Color scheme to be used"
   echo "    -p, --profile"
   echo "        Gnome Terminal profile to overwrite"
   echo
-}
-
-validate_scheme() {
-  local profile=$1
-  in_array $scheme "${schemes[@]}" || die "$scheme is not a valid scheme" 2
 }
 
 createNewProfile() {
@@ -93,21 +82,10 @@ get_profile_name() {
 
 set_profile_colors() {
   local profile=$1
-  local scheme=$2
 
-  case $scheme in
-    dark  )
-      local bg_color_file=$dir/colors/base03
-      local fg_color_file=$dir/colors/base0
-      local bd_color_file=$dir/colors/base1
-    ;;
-
-    light )
-      local bg_color_file=$dir/colors/base3
-      local fg_color_file=$dir/colors/base00
-      local bd_color_file=$dir/colors/base01
-    ;;
-  esac
+  local bg_color_file=$dir/colors/bg_color
+  local fg_color_file=$dir/colors/fg_color
+  local bd_color_file=$dir/colors/bd_color
 
   if [ "$newGnome" = "1" ]
     then local profile_path=$dconfdir/$profile
@@ -147,8 +125,7 @@ set_profile_colors() {
 
 interactive_help() {
   echo
-  echo "This script will ask you if you want a light or dark color scheme, and"
-  echo "which Gnome Terminal profile to overwrite."
+  echo "This script will ask you which Gnome Terminal profile to overwrite."
   echo
   echo "Please note that there is no uninstall option yet. If you do not wish"
   echo "to overwrite any of your profiles, you should create a new profile"
@@ -161,19 +138,6 @@ interactive_help() {
   echo "By default, it runs in the interactive mode, but it also can be run"
   echo "non-interactively, just feed it with the necessary options, see"
   echo "'install.sh --help' for details."
-  echo
-}
-
-interactive_select_scheme() {
-  echo "Please select a color scheme:"
-  select scheme
-  do
-    if [[ -z $scheme ]]
-    then
-      die "ERROR: Invalid selection -- ABORTING!" 2
-    fi
-    break
-  done
   echo
 }
 
@@ -236,7 +200,6 @@ interactive_confirm() {
 
   echo    "You have selected:"
   echo
-  echo    "  Scheme:  $scheme"
   echo    "  Profile: $(get_profile_name $profile) ($profile)"
   echo
   echo    "Are you sure you want to overwrite the selected profile?"
@@ -258,13 +221,6 @@ do
       show_help
       exit 0
     ;;
-    --scheme=* )
-      scheme=${1#*=}
-    ;;
-    -s | --scheme )
-      scheme=$2
-      shift
-    ;;
     --profile=* )
       profile=${1#*=}
     ;;
@@ -276,10 +232,9 @@ do
   shift
 done
 
-if [[ -z $scheme ]] || [[ -z $profile ]]
+if [[ -z $profile ]]
 then
   interactive_help
-  interactive_select_scheme "${schemes[@]}"
   if [ "$newGnome" = "1" ]
     then check_empty_profile
   fi
@@ -287,9 +242,8 @@ then
   interactive_confirm
 fi
 
-if [[ -n $scheme ]] && [[ -n $profile ]]
+if [[ -n $profile ]]
 then
-  validate_scheme $scheme
   validate_profile $profile
-  set_profile_colors $profile $scheme
+  set_profile_colors $profile 
 fi

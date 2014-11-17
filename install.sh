@@ -245,5 +245,5 @@ fi
 if [[ -n $profile ]]
 then
   validate_profile $profile
-  set_profile_colors $profile 
+  set_profile_colors $profile
 fi

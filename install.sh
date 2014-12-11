@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+## Change this to change the color scheme.
+
+# Color scheme borrowed from sublime-monokai-extended
+# (https://github.com/jonschlinkert/sublime-monokai-extended)
+#COLOR="extended"
+
+# The default color scheme.
+COLOR="default"
+
 dir=$(dirname $0)
 gnomeVersion="$(expr "$(gnome-terminal --version)" : '.* \(.*[.].*[.].*\)$')"
 
@@ -83,15 +92,15 @@ get_profile_name() {
 set_profile_colors() {
   local profile=$1
 
-  local bg_color_file=$dir/colors/bg_color
-  local fg_color_file=$dir/colors/fg_color
-  local bd_color_file=$dir/colors/bd_color
+  local bg_color_file=$dir/$COLOR/bg_color
+  local fg_color_file=$dir/$COLOR/fg_color
+  local bd_color_file=$dir/$COLOR/bd_color
 
   if [ "$newGnome" = "1" ]
     then local profile_path=$dconfdir/$profile
 
     # set color palette
-    dconf write $profile_path/palette "[$(cat $dir/colors/palette-new)]"
+    dconf write $profile_path/palette "[$(cat $dir/$COLOR/palette)]"
 
     # set foreground, background and highlight color
     dconf write $profile_path/bold-color "'$(cat $bd_color_file)'"
@@ -108,7 +117,7 @@ set_profile_colors() {
     local profile_path=$gconfdir/$profile
 
     # set color palette
-    gconftool-2 -s -t string $profile_path/palette $(cat $dir/colors/palette)
+    gconftool-2 -s -t string $profile_path/palette $(cat $dir/$COLOR/palette | sed -e 's/, /:/g' -e "s/'//g")
 
     # set foreground, background and highlight color
     gconftool-2 -s -t string $profile_path/bold_color       $(cat $bd_color_file)

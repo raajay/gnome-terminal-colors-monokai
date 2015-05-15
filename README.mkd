@@ -10,7 +10,7 @@ Clone the [git repository], then run `./install.sh`.
 
     $ git clone git://github.com/pricco/gnome-terminal-colors-monokai.git
     $ cd gnome-terminal-colors-monokai
-    $ ./monokai
+    $ ./install.sh
 
 ### Gnome 3.8 or higher
 
